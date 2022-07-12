@@ -52,7 +52,7 @@ function enter(el: HTMLElement, done: WatchCallback) {
     opacity: 1,
     duration: 2,
     ease: 'bounce.out',
-    // without done, Vue doesn't know when the animation is done so the afterEnter is triggered immediately
+    // without onComplete: done, Vue doesn't know when the animation is done so the afterEnter is triggered immediately
     onComplete: done,
   })
 }
