@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 import About from '../views/AboutView.vue'
 import Contact from '../views/ContactView.vue'
+import Test from '../views/TestView.vue'
 
 const routes = [
   {
@@ -19,6 +20,11 @@ const routes = [
     path: '/contact',
     name: 'Contact',
     component: Contact,
+  },
+  {
+    path: '/test',
+    name: 'Test',
+    component: Test,
   },
 
   // 404 Page
