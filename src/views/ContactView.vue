@@ -18,8 +18,10 @@ function enter(el: RendererElement, done: () => void) {
   gsap.to(el, {
     opacity: 1,
     y: 0,
-    duration: 1,
+    duration: 0.8,
     onComplete: done,
+    // different delay based on the index of the v-for
+    delay: 0.2 * el.dataset.index,
   })
 }
 </script>
@@ -33,7 +35,8 @@ function enter(el: RendererElement, done: () => void) {
       @before-enter="beforeEnter"
       @enter="enter"
     >
-      <li v-for="icon in icons" :key="icon.name">
+      <!-- binding the index to data attribute -->
+      <li v-for="(icon, index) in icons" :key="icon.name" :data-index="index">
         <span class="material-icons">{{ icon.name }}</span>
         <div>{{ icon.text }}</div>
       </li>
