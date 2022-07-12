@@ -30,16 +30,20 @@ const deleteTodo = (id: number) => {
       placeholder="Add a new todo..."
       @keypress.enter="addTodo"
     />
-    <div v-if="todos.length">
-      <!-- tag = the transition-group will be rendered as ul -->
-      <!-- appear = use the transition when the page loads -->
-      <transition-group tag="ul" name="list" appear>
-        <li v-for="todo in todos" :key="todo.id" @click="deleteTodo(todo.id)">
-          {{ todo.text }}
-        </li>
-      </transition-group>
-    </div>
-    <div v-else>Woohoo, nothing left todo!</div>
+    <!-- mode = make the leaving animation first then the entering animation -->
+    <!-- the default behavior is both animations at the same time -->
+    <transition name="switch" mode="out-in">
+      <div v-if="todos.length">
+        <!-- tag = the transition-group will be rendered as ul -->
+        <!-- appear = use the transition when the page loads -->
+        <transition-group tag="ul" name="list" appear>
+          <li v-for="todo in todos" :key="todo.id" @click="deleteTodo(todo.id)">
+            {{ todo.text }}
+          </li>
+        </transition-group>
+      </div>
+      <div v-else>Woohoo, nothing left todo!</div>
+    </transition>
   </div>
 </template>
 
@@ -96,5 +100,15 @@ input {
 /* to move transition works properly on element there are leaving the DOM, we need to make it above other elements with position absolute */
 .list-leave-active {
   position: absolute;
+}
+
+.switch-enter-from,
+.switch-leave-to {
+  opacity: 0;
+  transform: translateY(20px);
+}
+.switch-enter-active,
+.switch-leave-active {
+  transition: all 0.5s ease;
 }
 </style>
