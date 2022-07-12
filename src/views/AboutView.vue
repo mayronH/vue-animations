@@ -35,17 +35,17 @@
 </template>
 
 <script setup lang="ts">
-import { ref, WatchCallback } from 'vue'
+import { ref, RendererElement } from 'vue'
 import gsap from 'gsap'
 
 const showTitle = ref(true)
 
-function beforeEnter(el: HTMLElement) {
+function beforeEnter(el: RendererElement) {
   console.log('before enter', el)
   el.style.transform = 'translateY(-60px)'
   el.style.opacity = '0'
 }
-function enter(el: HTMLElement, done: WatchCallback) {
+function enter(el: RendererElement, done: () => void) {
   console.log('enter', el)
   gsap.to(el, {
     y: 0,
@@ -56,19 +56,19 @@ function enter(el: HTMLElement, done: WatchCallback) {
     onComplete: done,
   })
 }
-function afterEnter(el: HTMLElement) {
+function afterEnter(el: RendererElement) {
   console.log('after enter', el)
   // el.style.color = 'green'
   // setTimeout(() => (showTitle.value = false), 2000)
 }
-function beforeLeave(el: HTMLElement) {
+function beforeLeave(el: RendererElement) {
   // el.style.color = 'pink'
   console.log('before leave', el)
 }
-function leave(el: HTMLElement) {
+function leave(el: RendererElement) {
   console.log('leave', el)
 }
-function afterLeave(el: HTMLElement) {
+function afterLeave(el: RendererElement) {
   console.log('after leave', el)
 }
 </script>
