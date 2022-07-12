@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, RendererElement } from 'vue'
+import gsap from 'gsap'
 
 const icons = ref([
   { name: 'alternate_email', text: 'by email' },
@@ -7,17 +8,36 @@ const icons = ref([
   { name: 'local_post_office', text: 'by post' },
   { name: 'local_fire_department', text: 'by smoke signal' },
 ])
+
+function beforeEnter(el: RendererElement) {
+  el.style.opacity = '0'
+  el.style.transform = 'translateY(100px)'
+}
+
+function enter(el: RendererElement, done: () => void) {
+  gsap.to(el, {
+    opacity: 1,
+    y: 0,
+    duration: 1,
+    onComplete: done,
+  })
+}
 </script>
 
 <template>
   <div class="content contact">
     <h1>Contact</h1>
-    <ul>
+    <transition-group
+      tag="ul"
+      appear
+      @before-enter="beforeEnter"
+      @enter="enter"
+    >
       <li v-for="icon in icons" :key="icon.name">
         <span class="material-icons">{{ icon.name }}</span>
         <div>{{ icon.text }}</div>
       </li>
-    </ul>
+    </transition-group>
   </div>
 </template>
 
