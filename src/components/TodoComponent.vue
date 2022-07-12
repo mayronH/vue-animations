@@ -31,11 +31,13 @@ const deleteTodo = (id: number) => {
       @keypress.enter="addTodo"
     />
     <div v-if="todos.length">
-      <ul>
+      <!-- tag = the transition-group will be rendered as ul -->
+      <!-- appear = use the transition when the page loads -->
+      <transition-group tag="ul" name="list" appear>
         <li v-for="todo in todos" :key="todo.id" @click="deleteTodo(todo.id)">
           {{ todo.text }}
         </li>
-      </ul>
+      </transition-group>
     </div>
     <div v-else>Woohoo, nothing left todo!</div>
   </div>
@@ -72,5 +74,27 @@ input {
 }
 .todos li:hover {
   cursor: pointer;
+}
+
+/* Simplify version without any unnecessary css */
+.list-enter-from,
+.list-leave-to {
+  opacity: 0;
+  transform: scale(0.6);
+}
+.list-enter-active,
+.list-leave-active {
+  transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+/* apply transition to moving elements */
+/* is only applicable to transition groups */
+.list-move {
+  transition: all 0.3s ease;
+}
+
+/* to move transition works properly on element there are leaving the DOM, we need to make it above other elements with position absolute */
+.list-leave-active {
+  position: absolute;
 }
 </style>
